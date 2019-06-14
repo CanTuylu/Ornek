@@ -1,0 +1,73 @@
+1-Yazdýðým kodu test etmek için.
+2-Yaptýðýmýz projede ileride deðiþiklik
+yada eklemeler yapmak istediðimizde çýkabilecek
+hatalarý görebilmek için ve de ne yaptýðýmýzý
+hatýrlayabilmek için.
+3-Baþka bir projeyi devraldýðýmýzda proje hakkýnda
+hiç bir bilgimiz yoksa unit testlere bakarak
+programýn mantýðýný kavrayabiliriz.
+4-Mesela: Program handle edemediðimiz baþka sistemlerle
+çalýþýyorsa,yani program yada kod bir External
+Dependencye baðlýysa. Ör: Timer,FileSystems,
+WebServisleri. Bunlarýn sonuçlarýný
+test edebilmek için.
+if(WebServisiKontrolEt) External Dependency
+{
+	donen deger istedigim gibiyse
+	Baska bir iþ yap.
+}
+Mesela Timer.
+--> Timer 24 saat sonra bir iþ yap
+....kodlar
+....kodlar.
+if(Timer24SaatDoldugunda)
+{
+    --Ekrana Calistir diye yazdir.
+}
+Run-->program Çalýþyor.
+Uzaya gönderilen uzay mekiði.
+--Uzay mekigini yapýyor.
+--Uzayý simula eder (Çünkü uzay External dependency)
+
+...kodlar
+...kodlar
+if(FileSystemDosyayiOkursan) File
+{
+	//Ýþler yap.
+}
+...kodlar
+...kodlar
+if(VeriTabanýDegerVarmý)
+{
+    iþler yap.
+}
+
+Ýþte bu tür external dependencyler den gelecek
+sonuçlarý test etmek için ve bunlarda herhangi
+kontrolümüz olmadýðý için. Unit Test ile
+test ederek kodun devamýný yada programýn akýþýnýn
+devam edip edemediðini test ederiz.
+
+OOP de external dependencylerle çalýþýrken
+bunu handle eden bir tane WRAPPER class oluþturmak
+her zaman iyidir. (Managerclass) Neden? çünkü
+onu external depencyi için bir stub yaratabilmeme
+olanak tanýr ki unit test yazabileyim.
+Yani stub yapmak simule etmektir.
+Örnegin.
+File.Create();
+
+...kodlar
+if(File.Create())   if (new FileManager().DosyaYarat)
+{  
+	isler yap
+}
+
+
+class FileManager  (FileWrapper)
+{
+	void DosyaYarat()
+	{
+		File.Create(); WRAPING.
+	}
+}
